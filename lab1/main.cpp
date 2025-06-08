@@ -127,13 +127,13 @@ IMeter::Date parseDate(const std::string& dateString) {
     return date;
 }
 
-// Загрузка данных из JSON
+// Г‡Г ГЈГ°ГіГ§ГЄГ  Г¤Г Г­Г­Г»Гµ ГЁГ§ JSON
 std::vector<IMeter*> loadMetersFromJSON() {
     std::vector<IMeter*> meters;
 
     std::ifstream file("meters.json");
     if (!file.is_open()) {
-        std::cerr << "Не удалось открыть файл meters.json" << std::endl;
+        std::cerr << "ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј ГґГ Г©Г« meters.json" << std::endl;
         return meters;
     }
 
@@ -173,19 +173,19 @@ std::vector<IMeter*> loadMetersFromJSON() {
                 meters.push_back(new CGasMeter(date, value, gasType, pressure));
             }
             else {
-                std::cerr << "Неизвестный тип ресурса: " << resourceType << std::endl;
+                std::cerr << "ГЌГҐГЁГ§ГўГҐГ±ГІГ­Г»Г© ГІГЁГЇ Г°ГҐГ±ГіГ°Г±Г : " << resourceType << std::endl;
             }
         }
 
     }
     catch (const json::exception& e) {
-        std::cerr << "Ошибка при парсинге JSON: " << e.what() << std::endl;
+        std::cerr << "ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ ГЇГ Г°Г±ГЁГ­ГЈГҐ JSON: " << e.what() << std::endl;
     }
 
     return meters;
 }
 
-// Очистка памяти
+// ГЋГ·ГЁГ±ГІГЄГ  ГЇГ Г¬ГїГІГЁ
 void cleanupMeters(std::vector<IMeter*>& meters) {
     for (auto* meter : meters) {
         delete meter;
@@ -195,7 +195,7 @@ void cleanupMeters(std::vector<IMeter*>& meters) {
 
 bool CreateDeviceD3D(HWND hWnd)
 {
-    // Setup swap chain
+    // Setup swap chains
     DXGI_SWAP_CHAIN_DESC sd;
     ZeroMemory(&sd, sizeof(sd));
     sd.BufferCount = 2;
@@ -316,7 +316,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //
 //    int itemToDelete = -1;
 //
-//    // Главный цикл
+//    // ГѓГ«Г ГўГ­Г»Г© Г¶ГЁГЄГ«
 //    MSG msg;
 //    ZeroMemory(&msg, sizeof(msg));
 //    while (msg.message != WM_QUIT) {
@@ -371,7 +371,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //
 //        ImGui::End();
 //
-//        // Обработка удаления
+//        // ГЋГЎГ°Г ГЎГ®ГІГЄГ  ГіГ¤Г Г«ГҐГ­ГЁГї
 //        if (itemToDelete != -1 && itemToDelete < meters.size()) {
 //            delete meters[itemToDelete];
 //            meters.erase(meters.begin() + itemToDelete);
@@ -390,7 +390,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //        g_pSwapChain->Present(1, 0); // Present with vsync
 //    }
 //
-//    // Очистка
+//    // ГЋГ·ГЁГ±ГІГЄГ 
 //    ImGui_ImplDX11_Shutdown();
 //    ImGui_ImplWin32_Shutdown();
 //    ImGui::DestroyContext();
@@ -409,7 +409,7 @@ struct Date {
     int day;
 };
 
-// Парсинг даты
+// ГЏГ Г°Г±ГЁГ­ГЈ Г¤Г ГІГ»
 Date parseDate1(const std::string& dateString) {
     Date date;
     std::stringstream ss(dateString);
@@ -484,7 +484,7 @@ int main() {
 
     int itemToDelete = -1;
 
-    // Переменные для формы добавления
+    // ГЏГҐГ°ГҐГ¬ГҐГ­Г­Г»ГҐ Г¤Г«Гї ГґГ®Г°Г¬Г» Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї
     bool show_add_window = false;
     std::string input_date_str = "2023-10-01";
     double new_value = 0.0;
@@ -496,7 +496,7 @@ int main() {
     int water_type_index = 0; // 0: Cold, 1: Warm
     std::string input_error;
 
-    // Главный цикл
+    // ГѓГ«Г ГўГ­Г»Г© Г¶ГЁГЄГ«
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
     while (msg.message != WM_QUIT) {
@@ -552,14 +552,14 @@ int main() {
 
         ImGui::End();
 
-        // Обработка удаления
+        // ГЋГЎГ°Г ГЎГ®ГІГЄГ  ГіГ¤Г Г«ГҐГ­ГЁГї
         if (itemToDelete != -1 && itemToDelete < meters.size()) {
             delete meters[itemToDelete];
             meters.erase(meters.begin() + itemToDelete);
             itemToDelete = -1;
         }
 
-        // Модальное окно добавления
+        // ГЊГ®Г¤Г Г«ГјГ­Г®ГҐ Г®ГЄГ­Г® Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї
         if (show_add_window) {
             ImGui::OpenPopup("Add object");
         }
@@ -587,7 +587,7 @@ int main() {
             if (ImGui::Button("Add")) {
                 Date parsedDate;
                 if (!parseDateFromString(input_date_str, parsedDate)) {
-                    input_error = "Ошибка: неверный формат даты";
+                    input_error = "ГЋГёГЁГЎГЄГ : Г­ГҐГўГҐГ°Г­Г»Г© ГґГ®Г°Г¬Г ГІ Г¤Г ГІГ»";
                 }
                 else {
                     input_error.clear();
@@ -610,7 +610,7 @@ int main() {
                         meters.push_back(newMeter);
                         show_add_window = false;
 
-                        // Сброс полей
+                        // Г‘ГЎГ°Г®Г± ГЇГ®Г«ГҐГ©
                         input_date_str = "2023-10-01";
                         new_value = 0.0;
                         new_gas_type = "Co2";
@@ -647,7 +647,7 @@ int main() {
         g_pSwapChain->Present(1, 0); // Present with vsync
     }
 
-    // Очистка
+    // ГЋГ·ГЁГ±ГІГЄГ 
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
